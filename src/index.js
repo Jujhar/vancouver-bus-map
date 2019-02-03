@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import mapboxgl from 'mapbox-gl'
+import axios from 'axios'
 
 mapboxgl.accessToken = 'pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4M29iazA2Z2gycXA4N2pmbDZmangifQ.-g_vE53SD2WrJ6tFX7QHmA';
 
@@ -16,6 +17,10 @@ class HelloWorld extends React.Component {
 
   componentDidMount() {
     const { lng, lat, zoom } = this.state;
+
+    axios.get(`http://api.translink.ca/rttiapi/v1/buses/7196?apikey=${process.env.TRANSLINK}`)
+    // .then((res) => {
+    // })
 
     const map = new mapboxgl.Map({
       container: this.mapContainer,
