@@ -5,7 +5,7 @@ import axios from 'axios'
 
 mapboxgl.accessToken = 'pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4M29iazA2Z2gycXA4N2pmbDZmangifQ.-g_vE53SD2WrJ6tFX7QHmA';
 
-class HelloWorld extends React.Component {
+class BusMap extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -85,15 +85,16 @@ class HelloWorld extends React.Component {
     const { lng, lat, zoom } = this.state;
     return (
       <div>
-        <div className="inline-block absolute top left mt12 ml12
-        bg-darken75 color-white z1 py6 px12 round-full txt-s txt-bold"
+        <div
+          className="bg-darken75 color-white z1 py6 px12 round-full txt-s txt-bold"
+          style={{ opacity: '0.3' }}
         >
           <div>{`Longitude: ${lng} Latitude: ${lat} Zoom: ${zoom}`}</div>
         </div>
-        <div ref={el => this.mapContainer = el} className="absolute top right left bottom" />
+        <div id="mapWrapper" ref={el => this.mapContainer = el} />
       </div>
     );
   }
 }
 
-ReactDOM.render(<HelloWorld />, document.getElementById('react'));
+ReactDOM.render(<BusMap />, document.getElementById('react'));

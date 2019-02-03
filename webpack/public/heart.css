@@ -1,0 +1,15 @@
+body {
+  padding: 10px;
+}
+
+#mapWrapper {
+  height: 400px;
+  width: 700px;
+  opacity: 0.9
+}
+
+#labelWrapper {
+  height: 400px;
+  width: 700px;
+  opacity: 0.9
+}
