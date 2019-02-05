@@ -27,4 +27,13 @@ module.exports = {
     new OptimizeCssAssetsPlugin({}),
   ],
   devtool: 'source-map',
+  devServer: {
+        proxy: {
+        '/api': {
+            target: 'http://localhost:7771',
+                secure: false,
+                changeOrigin: true,
+        }
+    }
+  }
 };

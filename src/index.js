@@ -3,24 +3,27 @@ import ReactDOM from 'react-dom'
 import mapboxgl from 'mapbox-gl'
 import axios from 'axios'
 
+// Map box default token taken from their repo
 mapboxgl.accessToken = 'pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4M29iazA2Z2gycXA4N2pmbDZmangifQ.-g_vE53SD2WrJ6tFX7QHmA';
 
 class BusMap extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      lng: 5,
-      lat: 34,
-      zoom: 1.5,
+      lng: -123.1210,
+      lat: 49.2760,
+      zoom: 9.88,
     };
   }
 
   componentDidMount() {
     const { lng, lat, zoom } = this.state;
 
-    axios.get(`http://api.translink.ca/rttiapi/v1/buses/7196?apikey=${process.env.TRANSLINK}`)
-    // .then((res) => {
-    // })
+    // ${process.env.REACT_APP_TRANSLINK}
+    /* axios.get('http://api.translink.ca/rttiapi/v1/buses?apikey=x')
+      .then((res) => {
+        console.log(res.data)
+      }) */
 
     const map = new mapboxgl.Map({
       container: this.mapContainer,
@@ -39,6 +42,53 @@ class BusMap extends React.Component {
     });
 
     map.on('load', () => {
+      const busDat = [{
+        type: 'Feature',
+        geometry: {
+          type: 'Point',
+          coordinates: [-123.131183, 49.330833],
+        },
+        properties: {
+          title: '21ST TO WHITBY ESTATES',
+          icon: 'monument',
+        },
+      }, ]
+      const derp = [{
+        type: 'Feature',
+        geometry: {
+          type: 'Point',
+          coordinates: [-123.131183, 49.330833],
+        },
+        properties: {
+          title: '21ST TO WHITBY ESTATES',
+          icon: 'monument',
+        },
+      },
+      ]
+      let i = 0
+      axios.get('http://api.translink.ca/rttiapi/v1/buses?apikey=x')
+        .then((res) => {
+          console.log(res.data)
+          res.data.forEach((item) => {
+            if (i < 3) {
+              busDat.push({
+                type: 'Feature',
+                geometry: {
+                  type: 'Point',
+                  coordinates: [item.Longitude, item.Latitude],
+                },
+                properties: {
+                  title: 'EDMONDS STN',
+                  icon: 'monument',
+                },
+              }, )
+            }
+            i += 1;
+          });
+          console.log(busDat)
+          console.log(derp)
+        })
+
       map.addLayer({
         id: 'points',
         type: 'symbol',
@@ -46,27 +96,7 @@ class BusMap extends React.Component {
           type: 'geojson',
           data: {
             type: 'FeatureCollection',
-            features: [{
-              type: 'Feature',
-              geometry: {
-                type: 'Point',
-                coordinates: [-77.03238901390978, 38.913188059745586],
-              },
-              properties: {
-                title: 'Mapbox DC',
-                icon: 'monument',
-              },
-            }, {
-              type: 'Feature',
-              geometry: {
-                type: 'Point',
-                coordinates: [-122.414, 37.776],
-              },
-              properties: {
-                title: 'Mapbox SF',
-                icon: 'harbor',
-              },
-            }],
+            features: busDat,
           },
         },
         layout: {

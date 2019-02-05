@@ -16,6 +16,9 @@
 		],
 		"linebreak-style": 0,
 		"arrow-body-style": 0,
+		"comma-dangle": 0,
+		"space-in-parens": 0,
+		"array-bracket-spacing": 0,
 		"semi": 0,
 		"no-return-assign": 0,
 		"import/no-extraneous-dependencies": [
