@@ -18,13 +18,6 @@ class BusMap extends React.Component {
 
   componentDidMount() {
     const { lng, lat, zoom } = this.state;
-
-    // ${process.env.REACT_APP_TRANSLINK}
-    /* axios.get('http://api.translink.ca/rttiapi/v1/buses?apikey=x')
-      .then((res) => {
-        console.log(res.data)
-      }) */
-
     const map = new mapboxgl.Map({
       container: this.mapContainer,
       style: 'mapbox://styles/mapbox/streets-v9',
@@ -42,35 +35,13 @@ class BusMap extends React.Component {
     });
 
     map.on('load', () => {
-      const busDat = [{
-        type: 'Feature',
-        geometry: {
-          type: 'Point',
-          coordinates: [-123.131183, 49.330833],
-        },
-        properties: {
-          title: '21ST TO WHITBY ESTATES',
-          icon: 'monument',
-        },
-      }, ]
-      const derp = [{
-        type: 'Feature',
-        geometry: {
-          type: 'Point',
-          coordinates: [-123.131183, 49.330833],
-        },
-        properties: {
-          title: '21ST TO WHITBY ESTATES',
-          icon: 'monument',
-        },
-      },
-      ]
+      const busDat = []
       let i = 0
       axios.get('http://api.translink.ca/rttiapi/v1/buses?apikey=x')
         .then((res) => {
           console.log(res.data)
           res.data.forEach((item) => {
-            if (i < 3) {
+            if (i < 10000) { // limit to 10000 points
               busDat.push({
                 type: 'Feature',
                 geometry: {
@@ -78,35 +49,34 @@ class BusMap extends React.Component {
                   coordinates: [item.Longitude, item.Latitude],
                 },
                 properties: {
-                  title: 'EDMONDS STN',
+                  title: item.Destination,
                   icon: 'monument',
                 },
-              }, )
+              })
             }
             i += 1;
           });
           console.log(busDat)
-          console.log(derp)
-        })
 
-      map.addLayer({
-        id: 'points',
-        type: 'symbol',
-        source: {
-          type: 'geojson',
-          data: {
-            type: 'FeatureCollection',
-            features: busDat,
-          },
-        },
-        layout: {
-          'icon-image': '{icon}-15',
-          'text-field': '{title}',
-          'text-font': ['Open Sans Semibold', 'Arial Unicode MS Bold'],
-          'text-offset': [0, 0.6],
-          'text-anchor': 'top',
-        },
-      });
+          map.addLayer({
+            id: 'points',
+            type: 'symbol',
+            source: {
+              type: 'geojson',
+              data: {
+                type: 'FeatureCollection',
+                features: busDat,
+              },
+            },
+            layout: {
+              'icon-image': '{icon}-15',
+              'text-field': '{title}',
+              'text-font': ['Open Sans Semibold', 'Arial Unicode MS Bold'],
+              'text-offset': [0, 0.6],
+              'text-anchor': 'top',
+            },
+          });
+        })
     });
   }
 
