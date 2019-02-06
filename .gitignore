@@ -3,6 +3,7 @@ npm-debug.log
 package-lock.json
 /docs
 /build
+/webpack/public/
 server.js
 /coverage
 .env

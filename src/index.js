@@ -37,7 +37,7 @@ class BusMap extends React.Component {
     map.on('load', () => {
       const busDat = []
       let i = 0
-      axios.get('http://api.translink.ca/rttiapi/v1/buses?apikey=x')
+      axios.get('http://api.translink.ca/rttiapi/v1/buses?apikey=xlKhkXmoT49kl3CFiMoR')
         .then((res) => {
           console.log(res.data)
           res.data.forEach((item) => {
@@ -50,7 +50,7 @@ class BusMap extends React.Component {
                 },
                 properties: {
                   title: item.Destination,
-                  icon: 'monument',
+                  icon: 'circle-stroked',
                 },
               })
             }
